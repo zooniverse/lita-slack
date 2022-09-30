@@ -21,7 +21,7 @@ module Lita
         end
 
         def im_open(user_id)
-          response_data = call_api("im.open", user: user_id)
+          response_data = call_api('conversations.open', users: user_id)
 
           SlackIM.new(response_data["channel"]["id"], user_id)
         end
@@ -44,6 +44,10 @@ module Lita
 
         def im_list
           call_api("im.list")
+        end
+
+        def users_list
+          call_api('users.list')
         end
 
         def send_attachments(room_or_user, attachments)
@@ -70,14 +74,14 @@ module Lita
         end
 
         def rtm_start
-          response_data = call_api("rtm.start")
+          response_data = call_api('rtm.connect')
 
           TeamData.new(
-            SlackIM.from_data_array(response_data["ims"]),
+            SlackIM.from_data_array([]),
             SlackUser.from_data(response_data["self"]),
-            SlackUser.from_data_array(response_data["users"]),
-            SlackChannel.from_data_array(response_data["channels"]) +
-              SlackChannel.from_data_array(response_data["groups"]),
+            SlackUser.from_data_array([]),
+            SlackChannel.from_data_array([]) +
+              SlackChannel.from_data_array([]),
             response_data["url"],
           )
         end

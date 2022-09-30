@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Lita::Adapters::Slack::MessageHandler, lita: true do
-  subject { described_class.new(robot, robot_id, data) }
+  subject { described_class.new(robot, robot_id, data, config) }
 
   before do
     allow(robot).to receive(:trigger)

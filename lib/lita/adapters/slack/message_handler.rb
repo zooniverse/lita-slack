@@ -3,11 +3,12 @@ module Lita
     class Slack < Adapter
       # @api private
       class MessageHandler
-        def initialize(robot, robot_id, data)
+        def initialize(robot, robot_id, data, config)
           @robot = robot
           @robot_id = robot_id
           @data = data
           @type = data["type"]
+          @config = config
         end
 
         def handle
@@ -37,6 +38,7 @@ module Lita
         attr_reader :robot
         attr_reader :robot_id
         attr_reader :type
+        attr_reader :config
 
         def body
           normalized_message = if data["text"]
@@ -196,7 +198,7 @@ module Lita
 
         # Types of messages Lita should dispatch to handlers.
         def supported_message_subtypes
-          %w(me_message)
+          (config && config.supported_message_subtypes).to_a + %w(me_message)
         end
 
         def supported_subtype?
