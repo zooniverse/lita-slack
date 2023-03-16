@@ -14,6 +14,7 @@ module Lita
       config :unfurl_links, type: [true, false]
       config :unfurl_media, type: [true, false]
       config :supported_message_subtypes, type: Array, default: []
+      config :rtm_connection_verify_peer, type: [true, false], default: true
 
       # Provides an object for Slack-specific features.
       def chat_service
