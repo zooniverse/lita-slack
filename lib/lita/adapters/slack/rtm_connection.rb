@@ -47,6 +47,9 @@ module Lita
 
             websocket.on(:open) { log.debug("Connected to the Slack Real Time Messaging API.") }
             websocket.on(:message) { |event| receive_message(event) }
+            websocket.on(:error) do |event|
+              log.info("Slack Websocket error: #{event.message}")
+            end
             websocket.on(:close) do
               log.info("Disconnected from Slack.")
               EventLoop.safe_stop
@@ -113,6 +116,7 @@ module Lita
         def websocket_options
           options = { ping: 10 }
           options[:proxy] = { :origin => config.proxy } if config.proxy
+          options[:verify_peer] = config.rtm_connection_verify_peer
           options
         end
 
