@@ -116,6 +116,7 @@ module Lita
         end
       end
 
+      # The way the faye websocket library verifies x509 certs seems no longer to be compatible with the cert that the slack api provides. We instead verify the cert using Net::HTTP instead. 
       def verify_ssl_connection(host = "wss-primary.slack.com", max_retries = 10, wait_time = 5)
         ok = false
         ssl_retry = 0
@@ -125,8 +126,9 @@ module Lita
             Lita.logger.info('SSL connection is verified')
             ok = true
           rescue OpenSSL::SSL::SSLError => e
-            Lita.logger.info("SSL connection is not verified. Retry #{ssl_retry+1}. Error: #{e.message}. Backtrace: #{e.backtrace}")
+            Lita.logger.info("SSL connection is not verified. Retry #{ssl_retry + 1}. Error: #{e.message}. Backtrace: #{e.backtrace}")
             raise if ssl_retry == max_retries
+
             ok = false
             sleep(wait_time)
           end
