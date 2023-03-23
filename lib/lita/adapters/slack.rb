@@ -32,10 +32,10 @@ module Lita
 
         @rtm_connection = RTMConnection.build(robot, config)
 
-        unless config.rtm_connection_verify_peer
-          Lita.logger.info('SSL connection is going to be verified by Net::HTTP and OpenSSL')
-          verify_ssl_connection
-        end
+        # unless config.rtm_connection_verify_peer
+        #   Lita.logger.info('SSL connection is going to be verified by Net::HTTP and OpenSSL')
+        #   verify_ssl_connection
+        # end
 
         rtm_connection.run
       end
