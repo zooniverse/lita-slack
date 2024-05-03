@@ -50,8 +50,8 @@ module Lita
             websocket.on(:error) do |event|
               log.info("Slack Websocket error: #{event.message}")
             end
-            websocket.on(:close) do
-              log.info("Disconnected from Slack.")
+            websocket.on(:close) do |event|
+              log.info("Disconnected from Slack with event code and reason: #{event.code} - #{event.reason}")
               EventLoop.safe_stop
             end
             websocket.on(:error) { |event| log.debug("WebSocket error: #{event.message}") }
